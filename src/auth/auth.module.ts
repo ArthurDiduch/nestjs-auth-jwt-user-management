@@ -4,7 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './controllers/auth.controller';
-import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginUseCase } from './use-cases/login.use-case';
@@ -26,7 +25,6 @@ import { ValidateUserUseCase } from './use-cases/validate-user.use-case';
   ],
   controllers: [AuthController],
   providers: [
-    AuthService,
     LoginUseCase,
     RegisterUseCase,
     ValidateUserUseCase,

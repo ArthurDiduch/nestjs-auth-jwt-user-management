@@ -1,14 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from 'src/user/entities/user.entity';
-import { UserRepository } from 'src/user/repository/user.repository';
+import { FindOneByEmailUseCase } from 'src/user/use-cases/find-one-by-email.use-case';
 import { comparePasswords } from '../../common/utils/compare-passwords';
 
 @Injectable()
 export class ValidateUserUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly findOneByEmailUseCase: FindOneByEmailUseCase) {}
 
   async execute(email: string, password: string): Promise<User | null> {
-    const user = await this.userRepository.findOneByEmail(email);
+    const user = await this.findOneByEmailUseCase.execute(email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
