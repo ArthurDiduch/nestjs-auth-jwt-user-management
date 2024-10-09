@@ -19,6 +19,12 @@ export class User extends TimestampedEntity {
   @Column({ nullable: true })
   phone: string;
 
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
+
+  @Column({ nullable: true })
+  confirmationToken: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await hashPassword(this.password);

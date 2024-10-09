@@ -3,9 +3,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email": "fadosocrates@exemplo.com",
+    "email": "teste@exemplo.com",
     "password": "senha123",
-    "fullname": "Todis vinicier"
+    "fullname": "teste"
 }
 
 ### login
@@ -13,6 +13,9 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "fadosocrates@exemplo.com",
+    "email": "teste@exemplo.com",
     "password": "senha125"
 }
+
+### confirm email
+GET http://localhost:3000/auth/confirm-email?token=760afc71-819b-45a9-9b47-eafde0e9b9a5

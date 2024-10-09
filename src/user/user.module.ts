@@ -1,21 +1,31 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmailModule } from 'src/email/email.module';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
-import { CreateUserUseCase } from './use-cases/create.use-case';
+import { ConfirmEmailUseCase } from './use-cases/confirm-email.use-case';
+import { FindOneByConfirmationTokenUseCase } from './use-cases/find-one-by-confirmation-token.use-case';
 import { FindOneByEmailUseCase } from './use-cases/find-one-by-email.use-case';
+import { RegisterUseCase } from './use-cases/register.use-case';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), EmailModule],
   controllers: [],
   providers: [
     {
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
-    CreateUserUseCase,
     FindOneByEmailUseCase,
+    FindOneByConfirmationTokenUseCase,
+    RegisterUseCase,
+    ConfirmEmailUseCase,
   ],
-  exports: [CreateUserUseCase, FindOneByEmailUseCase],
+  exports: [
+    FindOneByEmailUseCase,
+    FindOneByConfirmationTokenUseCase,
+    RegisterUseCase,
+    ConfirmEmailUseCase,
+  ],
 })
 export class UserModule {}
