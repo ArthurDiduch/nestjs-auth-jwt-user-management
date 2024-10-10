@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "email": "teste@exemplo.com",
-    "password": "senha123"
+    "password": "123"
 }
 
 ### refresh token
@@ -23,6 +23,23 @@ Content-Type: application/json
 
 {
     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGV4ZW1wbG8uY29tIiwic3ViIjoiNDcyMjkwNjEwNTg1NjAiLCJpYXQiOjE3Mjg1ODAzOTAsImV4cCI6MTcyODU4Mzk5MH0.8RPYQxP7y8pCyoBMrV6qGoeQs0xtLLTgu3BA0YdRVDs"
+}
+
+### request password reset
+POST http://localhost:3000/auth/request-password-reset
+Content-Type: application/json
+
+{
+    "email": "teste@exemplo.com"
+}
+
+### reset password
+POST http://localhost:3000/auth/reset-password
+Content-Type: application/json
+
+{
+    "token": "30df86df-959e-42a4-80b6-e860995d2143",
+    "newPassword": "123"
 }
 
 ### confirm email

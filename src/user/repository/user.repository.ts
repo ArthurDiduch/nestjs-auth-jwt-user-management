@@ -29,6 +29,11 @@ export class UserRepository implements IUserRepository {
     });
   }
 
+  async findOneyByResetPasswordToken(token: string): Promise<User | undefined> {
+    return await this.repository.findOne({
+      where: { resetPasswordToken: token },
+    });
+  }
   async updateConfirmEmail(
     id: string,
     isEmailConfirmed: boolean,
@@ -41,5 +46,24 @@ export class UserRepository implements IUserRepository {
     }
 
     await this.repository.update(id, { isEmailConfirmed, confirmationToken });
+  }
+
+  async updateResetPassword(
+    id: string,
+    resetPasswordToken: string,
+    resetPasswordExpires: Date,
+    password?: string,
+  ): Promise<void> {
+    const user = await this.repository.findOne({ where: { id: id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    await this.repository.update(id, {
+      resetPasswordToken,
+      resetPasswordExpires,
+      password,
+    });
   }
 }

@@ -25,6 +25,12 @@ export class User extends TimestampedEntity {
   @Column({ nullable: true })
   confirmationToken: string;
 
+  @Column({ nullable: true })
+  resetPasswordToken: string;
+
+  @Column({ nullable: true, type: 'timestamptz' })
+  resetPasswordExpires: Date;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await hashPassword(this.password);

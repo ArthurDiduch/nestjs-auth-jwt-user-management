@@ -7,6 +7,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { RequestPasswordResetDto } from 'src/user/dto/request-password-reset.dto';
+import { ResetPasswordDto } from 'src/user/dto/reset-password.dto';
+import { RequestPasswordResetUseCase } from 'src/user/use-cases/request-password-reset.use-case';
+import { ResetPasswordUseCase } from 'src/user/use-cases/reset-password.use-case';
 import { ConfirmEmailUseCase } from '../../user/use-cases/confirm-email.use-case';
 import { RegisterUseCase } from '../../user/use-cases/register.use-case';
 import { LoginDto } from '../dto/login.dto';
@@ -21,6 +25,8 @@ export class AuthController {
     private readonly loginUseCase: LoginUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly confirmEmailUseCase: ConfirmEmailUseCase,
+    private readonly requestPasswordResetUseCase: RequestPasswordResetUseCase,
+    private readonly resetPasswordUseCase: ResetPasswordUseCase,
   ) {}
 
   @Post('login')
@@ -36,6 +42,23 @@ export class AuthController {
   @Post('refresh-token')
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.refreshTokenUseCase.execute(refreshTokenDto);
+  }
+
+  @Post('request-password-reset')
+  async requestPasswordReset(
+    @Body() requestPasswordResetDto: RequestPasswordResetDto,
+  ) {
+    return this.requestPasswordResetUseCase.execute(
+      requestPasswordResetDto.email,
+    );
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.resetPasswordUseCase.execute(
+      resetPasswordDto.token,
+      resetPasswordDto.newPassword,
+    );
   }
 
   @Get('confirm-email')

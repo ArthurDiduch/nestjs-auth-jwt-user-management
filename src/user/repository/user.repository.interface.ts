@@ -11,4 +11,11 @@ export interface IUserRepository {
     isEmailConfirmed: boolean,
     confirmationToken: string,
   ): Promise<void>;
+  updateResetPassword(
+    id: string,
+    resetPasswordToken: string,
+    resetPasswordExpires: Date,
+    password?: string,
+  ): Promise<void>;
+  findOneyByResetPasswordToken(token: string): Promise<User | undefined>;
 }
