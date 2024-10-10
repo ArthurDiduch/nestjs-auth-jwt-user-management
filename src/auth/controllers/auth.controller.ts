@@ -10,13 +10,16 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { ConfirmEmailUseCase } from '../../user/use-cases/confirm-email.use-case';
 import { RegisterUseCase } from '../../user/use-cases/register.use-case';
 import { LoginDto } from '../dto/login.dto';
+import { RefreshTokenDto } from '../dto/refrese-token.dto';
 import { LoginUseCase } from '../use-cases/login.use-case';
+import { RefreshTokenUseCase } from '../use-cases/refresh-token.use-case';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly registerUseCase: RegisterUseCase,
     private readonly loginUseCase: LoginUseCase,
+    private readonly refreshTokenUseCase: RefreshTokenUseCase,
     private readonly confirmEmailUseCase: ConfirmEmailUseCase,
   ) {}
 
@@ -28,6 +31,11 @@ export class AuthController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     return this.registerUseCase.execute(createUserDto);
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.refreshTokenUseCase.execute(refreshTokenDto);
   }
 
   @Get('confirm-email')

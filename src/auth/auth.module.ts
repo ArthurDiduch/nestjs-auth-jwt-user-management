@@ -7,6 +7,8 @@ import { AuthController } from './controllers/auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { LoginUseCase } from './use-cases/login.use-case';
+import { RefreshTokenUseCase } from './use-cases/refresh-token.use-case';
+import { ValidateRefreshTokenUseCase } from './use-cases/validate-refresh-token.use-case';
 import { ValidateUserUseCase } from './use-cases/validate-user.use-case';
 
 @Module({
@@ -23,6 +25,13 @@ import { ValidateUserUseCase } from './use-cases/validate-user.use-case';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [JwtStrategy, LocalStrategy, LoginUseCase, ValidateUserUseCase],
+  providers: [
+    JwtStrategy,
+    LocalStrategy,
+    LoginUseCase,
+    RefreshTokenUseCase,
+    ValidateRefreshTokenUseCase,
+    ValidateUserUseCase,
+  ],
 })
 export class AuthModule {}
