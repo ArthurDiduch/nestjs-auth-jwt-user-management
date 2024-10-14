@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { BullConfigService } from './config/bull-config.service';
 import envConfig from './config/database.config';
 import { TypeOrmConfigService } from './config/typeorm-config.service';
 import { EmailConfigService } from './email/config/email-config.service';
@@ -23,11 +24,8 @@ import { UserModule } from './user/user.module';
     MailerModule.forRootAsync({
       useClass: EmailConfigService,
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.forRootAsync({
+      useClass: BullConfigService,
     }),
     UserModule,
     AuthModule,
