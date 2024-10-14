@@ -1,15 +1,16 @@
-import { MailerService } from '@nestjs-modules/mailer';
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
+import { Queue } from 'bull';
 
 @Injectable()
 export class SendEmailConfirmationUseCase {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(@InjectQueue('email') private readonly emailQueue: Queue) {}
 
   async execute(email: string, token: string): Promise<void> {
     const confirmationUrl = `${process.env.APP_URL}/auth/confirm-email?token=${token}`;
 
-    await this.mailerService.sendMail({
-      to: email,
+    await this.emailQueue.add('send-email', {
+      email,
       subject: 'Email Confirmation',
       text: `Please confirm your email by clicking on the following link: ${confirmationUrl}`,
     });
