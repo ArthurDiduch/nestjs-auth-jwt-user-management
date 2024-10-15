@@ -5,16 +5,20 @@ import {
   Get,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { RequestPasswordResetDto } from 'src/user/dto/request-password-reset.dto';
 import { ResetPasswordDto } from 'src/user/dto/reset-password.dto';
+import { RequestConfirmEmailUseCase } from 'src/user/use-cases/request-confirm-email.use-case';
 import { RequestPasswordResetUseCase } from 'src/user/use-cases/request-password-reset.use-case';
 import { ResetPasswordUseCase } from 'src/user/use-cases/reset-password.use-case';
 import { ConfirmEmailUseCase } from '../../user/use-cases/confirm-email.use-case';
 import { RegisterUseCase } from '../../user/use-cases/register.use-case';
 import { LoginDto } from '../dto/login.dto';
 import { RefreshTokenDto } from '../dto/refrese-token.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { LoginUseCase } from '../use-cases/login.use-case';
 import { RefreshTokenUseCase } from '../use-cases/refresh-token.use-case';
 
@@ -27,6 +31,7 @@ export class AuthController {
     private readonly confirmEmailUseCase: ConfirmEmailUseCase,
     private readonly requestPasswordResetUseCase: RequestPasswordResetUseCase,
     private readonly resetPasswordUseCase: ResetPasswordUseCase,
+    private readonly requestConfirmEmailUseCase: RequestConfirmEmailUseCase,
   ) {}
 
   @Post('login')
@@ -69,5 +74,12 @@ export class AuthController {
 
     await this.confirmEmailUseCase.execute(token);
     return 'Email successfully confirmed';
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('request-confirm-email')
+  async requestConfirmEmail(@CurrentUser() user: any) {
+    await this.requestConfirmEmailUseCase.execute(user.email);
+    return 'Email confirmation request sent';
   }
 }

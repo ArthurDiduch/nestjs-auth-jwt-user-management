@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "email": "teste@exemplo.com",
-    "password": "123"
+    "password": "senha123"
 }
 
 ### refresh token
@@ -44,3 +44,8 @@ Content-Type: application/json
 
 ### confirm email
 GET http://localhost:3000/auth/confirm-email?token=760afc71-819b-45a9-9b47-eafde0e9b9a5
+
+### request confirm email
+GET http://localhost:3000/auth/request-confirm-email
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQGV4ZW1wbG8uY29tIiwic3ViIjoiOTI5MTk3ODc1MiIsImlhdCI6MTcyOTAxNDU5MCwiZXhwIjoxNzI5MDE4MTkwfQ.URUDs1hZ_tG2n2PjgsWhOBtj7sWUmpgI4zhiXZffHXg
+Content-Type: application/json

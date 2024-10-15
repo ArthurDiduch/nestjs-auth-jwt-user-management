@@ -7,6 +7,7 @@ import { ConfirmEmailUseCase } from './use-cases/confirm-email.use-case';
 import { FindOneByConfirmationTokenUseCase } from './use-cases/find-one-by-confirmation-token.use-case';
 import { FindOneByEmailUseCase } from './use-cases/find-one-by-email.use-case';
 import { RegisterUseCase } from './use-cases/register.use-case';
+import { RequestConfirmEmailUseCase } from './use-cases/request-confirm-email.use-case';
 import { RequestPasswordResetUseCase } from './use-cases/request-password-reset.use-case';
 import { ResetPasswordUseCase } from './use-cases/reset-password.use-case';
 
@@ -24,6 +25,7 @@ import { ResetPasswordUseCase } from './use-cases/reset-password.use-case';
     ConfirmEmailUseCase,
     RequestPasswordResetUseCase,
     ResetPasswordUseCase,
+    RequestConfirmEmailUseCase,
   ],
   exports: [
     FindOneByEmailUseCase,
@@ -32,6 +34,7 @@ import { ResetPasswordUseCase } from './use-cases/reset-password.use-case';
     ConfirmEmailUseCase,
     RequestPasswordResetUseCase,
     ResetPasswordUseCase,
+    RequestConfirmEmailUseCase,
   ],
 })
 export class UserModule {}
