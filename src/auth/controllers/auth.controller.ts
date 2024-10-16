@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Query,
   UseGuards,
@@ -34,21 +35,25 @@ export class AuthController {
     private readonly requestConfirmEmailUseCase: RequestConfirmEmailUseCase,
   ) {}
 
+  @HttpCode(201)
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.loginUseCase.execute(loginDto);
   }
 
+  @HttpCode(204)
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     return this.registerUseCase.execute(createUserDto);
   }
 
+  @HttpCode(201)
   @Post('refresh-token')
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.refreshTokenUseCase.execute(refreshTokenDto);
   }
 
+  @HttpCode(204)
   @Post('request-password-reset')
   async requestPasswordReset(
     @Body() requestPasswordResetDto: RequestPasswordResetDto,
@@ -58,6 +63,7 @@ export class AuthController {
     );
   }
 
+  @HttpCode(204)
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
     return this.resetPasswordUseCase.execute(
@@ -66,20 +72,20 @@ export class AuthController {
     );
   }
 
+  @HttpCode(204)
   @Get('confirm-email')
-  async confirmEmail(@Query('token') token: string): Promise<string> {
+  async confirmEmail(@Query('token') token: string) {
     if (!token) {
       throw new BadRequestException('Token is required');
     }
 
     await this.confirmEmailUseCase.execute(token);
-    return 'Email successfully confirmed';
   }
 
+  @HttpCode(204)
   @UseGuards(JwtAuthGuard)
   @Get('request-confirm-email')
   async requestConfirmEmail(@CurrentUser() user: any) {
     await this.requestConfirmEmailUseCase.execute(user.email);
-    return 'Email confirmation request sent';
   }
 }
