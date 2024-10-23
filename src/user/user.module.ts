@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailModule } from 'src/email/email.module';
+import { UserController } from './controllers/user.controller';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
 import { ConfirmEmailUseCase } from './use-cases/confirm-email.use-case';
@@ -13,7 +14,7 @@ import { ResetPasswordUseCase } from './use-cases/reset-password.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), EmailModule],
-  controllers: [],
+  controllers: [UserController],
   providers: [
     {
       provide: 'IUserRepository',
