@@ -10,6 +10,8 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ExceptionInterceptor());
 
+  app.enableCors();
+
   await app.listen(3000);
 }
 bootstrap();
