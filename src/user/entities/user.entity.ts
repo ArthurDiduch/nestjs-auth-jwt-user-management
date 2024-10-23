@@ -1,5 +1,5 @@
-import { TimestampedEntity } from 'src/common/entities/timestamped-entity';
-import { hashPassword } from 'src/common/utils/hash-password';
+import { TimestampedEntity } from 'src/shared/entities/timestamped-entity';
+import { hashPassword } from 'src/shared/utils/hash-password';
 import { BeforeInsert, Column, Entity } from 'typeorm';
 
 @Entity()
@@ -24,6 +24,9 @@ export class User extends TimestampedEntity {
 
   @Column({ nullable: true })
   confirmationToken: string;
+
+  @Column({ nullable: true, type: 'timestamptz' })
+  confirmationExpires: Date;
 
   @Column({ nullable: true })
   resetPasswordToken: string;

@@ -22,11 +22,14 @@ export class RequestConfirmEmailUseCase {
 
     const isEmailConfirmed = false;
     const confirmationToken = uuid();
+    const confirmationExpires = new Date();
+    confirmationExpires.setHours(confirmationExpires.getHours() + 1);
 
     await this.userRepository.updateConfirmEmail(
       user.id,
       isEmailConfirmed,
       confirmationToken,
+      confirmationExpires,
     );
 
     await this.sendEmailConfirmationUseCase.execute(

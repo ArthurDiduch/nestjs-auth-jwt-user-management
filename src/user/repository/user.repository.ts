@@ -38,6 +38,7 @@ export class UserRepository implements IUserRepository {
     id: string,
     isEmailConfirmed: boolean,
     confirmationToken: string,
+    confirmationExpires: Date,
   ): Promise<void> {
     const user = await this.repository.findOne({ where: { id: id } });
 
@@ -45,7 +46,11 @@ export class UserRepository implements IUserRepository {
       throw new NotFoundException('User not found');
     }
 
-    await this.repository.update(id, { isEmailConfirmed, confirmationToken });
+    await this.repository.update(id, {
+      isEmailConfirmed,
+      confirmationToken,
+      confirmationExpires,
+    });
   }
 
   async updateResetPassword(

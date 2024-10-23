@@ -10,6 +10,7 @@ export interface IUserRepository {
     id: string,
     isEmailConfirmed: boolean,
     confirmationToken: string,
+    confirmationExpires: Date,
   ): Promise<void>;
   updateResetPassword(
     id: string,

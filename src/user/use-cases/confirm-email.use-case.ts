@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotAcceptableException,
+} from '@nestjs/common';
 import { FindOneByConfirmationTokenUseCase } from 'src/user/use-cases/find-one-by-confirmation-token.use-case';
 import { IUserRepository } from '../repository/user.repository.interface';
 
@@ -17,13 +22,19 @@ export class ConfirmEmailUseCase {
       throw new BadRequestException('Invalid token');
     }
 
+    if (user.confirmationExpires < new Date()) {
+      throw new NotAcceptableException('Confirmation token has expired');
+    }
+
     const isEmailConfirmed = true;
     const confirmationToken = null;
+    const confirmationExpires = null;
 
     await this.userRepository.updateConfirmEmail(
       user.id,
       isEmailConfirmed,
       confirmationToken,
+      confirmationExpires,
     );
   }
 }

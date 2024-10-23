@@ -23,6 +23,9 @@ export class RegisterUseCase {
 
     const confirmationToken = uuid();
     user.confirmationToken = confirmationToken;
+    const confirmationExpires = new Date();
+    confirmationExpires.setHours(confirmationExpires.getHours() + 1);
+    user.confirmationExpires = confirmationExpires;
 
     await this.sendEmailConfirmationUseCase.execute(
       user.email,
