@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from 'src/user/entities/user.entity';
 import { FindOneByEmailUseCase } from 'src/user/use-cases/find-one-by-email.use-case';
-import { comparePasswords } from '../../common/utils/compare-passwords';
+import { comparePasswords } from '../../shared/utils/compare-passwords';
 
 @Injectable()
 export class ValidateUserUseCase {

@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { hashPassword } from 'src/common/utils/hash-password';
+import { hashPassword } from 'src/shared/utils/hash-password';
 import { IUserRepository } from '../repository/user.repository.interface';
 
 @Injectable()
