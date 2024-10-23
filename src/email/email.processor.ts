@@ -16,8 +16,6 @@ export class EmailProcessor {
         subject: subject,
         text: text,
       });
-
-      console.log(`E-mail enviado para ${email}`);
     } catch (error) {
       console.error(`Erro ao enviar e-mail: ${error.message}`);
       throw error;
