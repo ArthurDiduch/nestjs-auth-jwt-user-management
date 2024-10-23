@@ -1,4 +1,4 @@
-import { generateId } from 'src/common/utils/generate-id';
+import { generateId } from 'src/shared/utils/generate-id';
 import {
   BeforeInsert,
   PrimaryColumn,
