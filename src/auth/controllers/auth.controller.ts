@@ -8,7 +8,8 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
+import { ICurrentUser } from 'src/shared/interfaces/current-user.interface';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { RequestPasswordResetDto } from 'src/user/dto/request-password-reset.dto';
 import { ResetPasswordDto } from 'src/user/dto/reset-password.dto';
@@ -18,9 +19,11 @@ import { ResetPasswordUseCase } from 'src/user/use-cases/reset-password.use-case
 import { ConfirmEmailUseCase } from '../../user/use-cases/confirm-email.use-case';
 import { RegisterUseCase } from '../../user/use-cases/register.use-case';
 import { LoginDto } from '../dto/login.dto';
+import { LogoutDto } from '../dto/logout.dto';
 import { RefreshTokenDto } from '../dto/refrese-token.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { LoginUseCase } from '../use-cases/login.use-case';
+import { LogoutUseCase } from '../use-cases/logout.use-case';
 import { RefreshTokenUseCase } from '../use-cases/refresh-token.use-case';
 
 @Controller('auth')
@@ -33,6 +36,7 @@ export class AuthController {
     private readonly requestPasswordResetUseCase: RequestPasswordResetUseCase,
     private readonly resetPasswordUseCase: ResetPasswordUseCase,
     private readonly requestConfirmEmailUseCase: RequestConfirmEmailUseCase,
+    private readonly logoutUseCase: LogoutUseCase,
   ) {}
 
   @HttpCode(201)
@@ -51,6 +55,12 @@ export class AuthController {
   @Post('refresh-token')
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.refreshTokenUseCase.execute(refreshTokenDto);
+  }
+
+  @HttpCode(204)
+  @Post('logout')
+  async logout(@Body() logoutDto: LogoutDto) {
+    await this.logoutUseCase.execute(logoutDto.refreshToken);
   }
 
   @HttpCode(204)
@@ -85,7 +95,7 @@ export class AuthController {
   @HttpCode(204)
   @UseGuards(JwtAuthGuard)
   @Get('request-confirm-email')
-  async requestConfirmEmail(@CurrentUser() user: any) {
-    await this.requestConfirmEmailUseCase.execute(user.email);
+  async requestConfirmEmail(@CurrentUser() currentUser: ICurrentUser) {
+    await this.requestConfirmEmailUseCase.execute(currentUser.email);
   }
 }
