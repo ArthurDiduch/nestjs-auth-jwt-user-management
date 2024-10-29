@@ -10,9 +10,7 @@ export class LoginUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  async execute(
-    loginDto: LoginDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async execute(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const user = await this.validateUserUseCase.execute(
       loginDto.email,
       loginDto.password,
@@ -20,8 +18,7 @@ export class LoginUseCase {
 
     const payload = { email: user.email, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
 
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 }
